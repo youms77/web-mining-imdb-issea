@@ -7,25 +7,28 @@ toolbarMode = "minimal"
 
 [theme]
 base = "light"
-primaryColor = "#1F5FBF"
-backgroundColor = "#F6F7FA"
-secondaryBackgroundColor = "#EDF0F5"
-textColor = "#17202E"
-linkColor = "#1F5FBF"
-borderColor = "#DDE2EA"
+primaryColor = "#2563EB"
+backgroundColor = "#EFF6FF"
+secondaryBackgroundColor = "#DBEAFE"
+textColor = "#0F172A"
+linkColor = "#1E40AF"
+borderColor = "#BFDBFE"
 showWidgetBorder = true
-showSidebarBorder = true
+showSidebarBorder = false
 baseRadius = "10px"
 font = "sans-serif"
 headingFont = "serif"
 baseFontSize = 18
 headingFontSizes = ["2.5rem", "1.65rem", "1.4rem", "1.2rem", "1.1rem", "1rem"]
-greenColor = "#1B7F4B"
-redColor = "#C8372D"
-orangeColor = "#8F4A00"
-blueColor = "#1F5FBF"
-chartCategoricalColors = ["#1F5FBF", "#1B7F4B", "#E07B00", "#C8372D"]
+greenColor = "#16A34A"
+redColor = "#DC2626"
+orangeColor = "#EA580C"
+blueColor = "#2563EB"
+chartCategoricalColors = ["#2563EB", "#16A34A", "#EA580C", "#DC2626"]
 
 [theme.sidebar]
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#EDF0F5"
+backgroundColor = "#2563EB"
+secondaryBackgroundColor = "#1E40AF"
+textColor = "#FFFFFF"
+linkColor = "#FFFFFF"
+borderColor = "#1E40AF"

@@ -1,4 +1,4 @@
-"""Page « Explorer les thèmes » : résultats précalculés de NMF, LDA et BERTopic."""
+"""Page « Exploration des thèmes » : NMF (par défaut), LDA et BERTopic (résultats calculés sur Colab)."""
 from __future__ import annotations
 
 from html import escape
@@ -12,9 +12,9 @@ from src import application as ap
 artefacts = ui.charger()
 metriques = artefacts.metriques
 topics = metriques["topics"]
-bertopic = metriques["bertopic"]
+colab = metriques["bertopic_colab"]
 extraits = {e["topic"]: e for e in artefacts.contenu.get("extraits", [])}
-METHODES = {"NMF (retenu)": "nmf", "LDA": "lda", "BERTopic": "bertopic"}
+METHODES = {"NMF (par défaut)": "nmf", "LDA": "lda", "BERTopic (analyse approfondie)": "bertopic"}
 NATURES = {"sujet": "Sujet", "jugement": "Jugement", "mixte": "Mixte"}
 
 
@@ -25,19 +25,19 @@ def afficher_fiche(cle: str) -> None:
     ordre = [l["topic"] for l in topics["comparaison_polarite"][cle]["topics"]]
     choix = st.selectbox("Choisir un thème", ordre, format_func=lambda t: fiches[t]["nom"], key=f"fiche_{cle}")
     fiche, ligne = fiches[choix], polarite[choix]
-    with ui.carte(f"fiche_{cle}"):
+    with ui.carte(f"fiche_{cle}", ton="orange"):
         st.subheader(fiche["nom"], anchor=False)
         st.markdown(f"**Nature :** {NATURES.get(fiche['nature'], fiche['nature'])}")
         st.markdown(f"**Mots principaux :** {', '.join(fiche['mots'])}")
         st.markdown(fiche["lecture"])
-        with st.container(horizontal=True, gap="medium"):
-            st.metric("Avis positifs", f"{ap.fr_nombre(ligne['prevalence_positif_pct'], 1)} %", width="content")
-            st.metric("Avis négatifs", f"{ap.fr_nombre(ligne['prevalence_negatif_pct'], 1)} %", width="content")
-            st.metric("Écart", ui.fr_ecart(ligne["ecart_points"]), width="content")
-        st.caption("Part moyenne du thème dans chaque groupe d'avis.")
-        st.caption(
-            f"Intervalle de confiance à 95 % de l'écart : {ap.fr_nombre(ligne['ic95_bas'], 1)} à "
-            f"{ap.fr_nombre(ligne['ic95_haut'], 1)} points. d de Cohen : {ap.fr_nombre(ligne['d_cohen'], 2)}."
+        ui.indicateurs([
+            ("Avis positifs", f"{ap.fr_nombre(ligne['prevalence_positif_pct'], 1)} %", "vert"),
+            ("Avis négatifs", f"{ap.fr_nombre(ligne['prevalence_negatif_pct'], 1)} %", "rouge"),
+            ("Écart", ui.fr_ecart(ligne["ecart_points"]), "bleu"),
+        ])
+        st.markdown(
+            f"**IC à 95 % de l'écart :** {ap.fr_nombre(ligne['ic95_bas'], 1)} à {ap.fr_nombre(ligne['ic95_haut'], 1)} points. "
+            f"**d de Cohen :** {ap.fr_nombre(ligne['d_cohen'], 2)}."
         )
         extrait = extraits.get(choix) if cle == "nmf" else None
         if extrait and extrait.get("extrait"):
@@ -46,99 +46,125 @@ def afficher_fiche(cle: str) -> None:
 
 
 def afficher_cours(cle: str) -> None:
-    comparaison = topics["comparaison_polarite"][cle]
-    lignes = comparaison["topics"]
-    fort = max(lignes, key=lambda l: abs(l["ecart_points"]))
+    lignes = topics["comparaison_polarite"][cle]["topics"]
     choix_k = topics["choix_k"][cle]
-    if cle == "nmf":
-        st.success(
-            f"Modèle commun du projet : NMF à {choix_k['k']} thèmes, sur {ap.fr_entier(topics['corpus']['documents'])} critiques.",
-            icon=":material/verified:",
-        )
-    else:
-        st.info(
-            f"LDA à {choix_k['k']} thèmes, calculée comme contrôle du modèle NMF. Elle garde un thème flou à la lecture.",
-            icon=":material/compare_arrows:",
-        )
-    a, b, c = st.columns(3)
-    a.metric("Thèmes", choix_k["k"], border=True)
-    b.metric("Cohérence c_v", ap.fr_nombre(choix_k["c_v"], 3), border=True)
-    c.metric("Diversité des mots", ap.fr_nombre(choix_k["diversite"], 3), border=True)
-
+    ui.indicateurs([
+        ("Nombre de thèmes", choix_k["k"], "bleu"),
+        ("Cohérence c_v", ap.fr_nombre(choix_k["c_v"], 3), "vert"),
+        ("Diversité des mots", ap.fr_nombre(choix_k["diversite"], 3), "orange"),
+        ("Critiques modélisées", ap.fr_entier(topics["corpus"]["documents"]), "bleu"),
+    ])
     col_graphe, col_fiche = st.columns([1.1, 1], gap="large")
     with col_graphe:
         with ui.carte(f"polarite_{cle}"):
-            signe = "positifs" if fort["ecart_points"] > 0 else "négatifs"
-            st.subheader(f"« {fort['nom']} » sépare le plus les avis", anchor=False)
-            st.markdown(f"Ce thème pèse {ap.fr_nombre(abs(fort['ecart_points']), 1)} points de plus dans les avis {signe}.")
+            st.subheader("Prévalence des thèmes selon la polarité", anchor=False)
             ui.afficher(ui.barres_divergentes(lignes), f"polarite_{cle}", "Écart de présence de chaque thème entre avis positifs et négatifs.")
-            st.caption("Part moyenne du thème dans les avis positifs moins les avis négatifs. Barres fines : IC à 95 %.")
     with col_fiche:
         afficher_fiche(cle)
 
 
 def afficher_bertopic() -> None:
-    concentration = bertopic["concentration"]["bertopic_k8"]
-    comparaison = bertopic["comparaison"]
-    st.warning(
-        f"BERTopic a été ajusté sur {ap.fr_entier(bertopic['echantillon']['critiques'])} critiques d'entraînement, pas sur tout "
-        f"le corpus. Il laisse {ap.fr_pct(concentration['part_hors_topic'])} des critiques hors topic. "
-        "**NMF reste le modèle commun.** Résultats précalculés : BERTopic ne tourne pas dans cette application.",
-        icon=":material/warning:",
-    )
-    a, b, c = st.columns(3)
-    a.metric("Critiques hors topic", ap.fr_pct(concentration["part_hors_topic"]), border=True)
-    b.metric("Classées dans le plus grand topic", ap.fr_pct(concentration["part_du_plus_grand_topic_parmi_les_classees"]), border=True)
-    c.metric(
-        "Topics de 10 critiques ou moins",
-        f"{concentration['topics_de_10_critiques_ou_moins']} sur {comparaison['bertopic_k8']['n_topics']}", border=True,
-    )
+    reglage = colab["reglage_retenu"]
+    ui.indicateurs([
+        ("Thèmes (k-means)", reglage["n_themes"], "bleu"),
+        ("Critiques encodées", ap.fr_entier(colab["critiques"]), "vert"),
+        ("Cohérence c_v", ap.fr_nombre(reglage["c_v"], 3), "orange"),
+        ("Stabilité (Jaccard moyen)", ap.fr_nombre(reglage["stabilite_jaccard_moyen"], 3), "rouge"),
+    ])
+    with ui.carte("reglage_colab", ton="orange"):
+        st.subheader("Réglage retenu pour BERTopic", anchor=False)
+        grille = colab["grille"]
+        st.markdown(
+            f"- **Encodeur :** {colab['encodeur']['nom']} (licence {colab['encodeur']['licence']}), sur {ap.fr_entier(colab['critiques'])} critiques.\n"
+            f"- **Texte :** sans les mots génériques (movie, film, watch…). **Réduction :** {reglage['reduction']}.\n"
+            f"- **Regroupement :** k-means à {reglage['n_themes']} thèmes. {grille['reglages_hdbscan']} réglages HDBSCAN ont été essayés : "
+            f"ils donnent au plus {grille['hdbscan_themes_max']} thèmes, dont un contient au moins "
+            f"{ap.fr_pct(grille['hdbscan_plus_grand_theme_min'], 0)} du corpus.\n"
+            f"- **Axe 1 retiré :** {reglage['raison_axe_1'].replace('0.', '0,')}.\n"
+            f"- **Stabilité mesurée :** Jaccard moyen {ap.fr_nombre(reglage['stabilite_jaccard_moyen'], 3)} sur des sous-échantillons de "
+            f"{ap.fr_pct(reglage['stabilite_part_sous_echantillon'], 0)}, un thème sur trois environ change de composition d'un tirage à l'autre.\n"
+            f"- **Hors thème :** {ap.fr_pct(reglage['part_hors_theme'], 0)} (k-means classe toutes les critiques). Le plus grand thème contient "
+            f"{ap.fr_pct(reglage['plus_grand_theme_part'])} du corpus.\n"
+            "- **NMF reste le modèle par défaut** de l'application ; BERTopic sert d'analyse approfondie."
+        )
 
-    col_tableau, col_graphe = st.columns([1, 1.1], gap="large")
-    with col_tableau:
-        with ui.carte("bertopic_comparaison"):
-            st.subheader("Comparaison sur le même échantillon", anchor=False)
-            modeles = {"BERTopic k=8": "bertopic_k8", "NMF k=8": "nmf_k8_echantillon", "LDA k=12": "lda_k12_echantillon"}
-            st.table(pd.DataFrame({
-                nom: {
-                    "Cohérence c_v": ap.fr_nombre(comparaison[c]["c_v"], 3),
-                    "Diversité": ap.fr_nombre(comparaison[c]["diversite"], 3),
-                    "Hors topic": ap.fr_pct(comparaison[c]["part_hors_topic"]),
-                    "Stabilité (Jaccard)": ap.fr_nombre(comparaison[c]["stabilite_jaccard"], 3),
-                } for nom, c in modeles.items()
-            }))
-            st.markdown(bertopic["conclusion"])
-    with col_graphe:
-        with ui.carte("bertopic_polarite"):
-            st.subheader("Topics BERTopic par polarité", anchor=False)
-            lignes = [l for l in bertopic["polarite_k8"]["topics"] if l["topic"] >= 0]
-            ui.afficher(ui.barres_divergentes(lignes), "polarite_bertopic", "Écart de présence des topics BERTopic entre avis positifs et négatifs.")
-            st.caption(
-                f"{concentration['topics_de_10_critiques_ou_moins']} topics sur {len(lignes)} comptent 10 critiques "
-                "ou moins : leurs intervalles sont très larges."
-            )
+    col_carte, col_polarite = st.columns([1, 1.2], gap="large")
+    with col_carte:
+        with ui.carte("carte_colab"):
+            st.subheader("Carte des critiques en deux dimensions", anchor=False)
+            noms = {t["topic"]: t["nom"] for t in colab["themes"]}
+            ui.afficher(ui.nuage_themes(ui.agregats()["carte_colab"], noms), "carte_colab", "Échantillon de critiques projetées en deux dimensions, colorées selon la polarité.")
+    with col_polarite:
+        with ui.carte("polarite_colab"):
+            st.subheader("Prévalence des thèmes selon la polarité", anchor=False)
+            ui.afficher(ui.barres_divergentes(colab["polarite"]["themes"], hauteur_ligne=36), "polarite_colab", "Écart de présence de chaque thème BERTopic entre avis positifs et négatifs.")
 
-    phrases = bertopic["extension_phrases"]
+    themes = {t["topic"]: t for t in colab["themes"]}
+    lignes = {l["topic"]: l for l in colab["polarite"]["themes"]}
+    choix = st.selectbox("Choisir un thème", list(themes), format_func=lambda t: f"{t}. {themes[t]['nom']}", key="fiche_colab")
+    t, l = themes[choix], lignes[choix]
+    with ui.carte("fiche_colab", ton="orange"):
+        st.subheader(t["nom"], anchor=False)
+        st.markdown(f"**Mots principaux :** {', '.join(t['mots']).replace('_', ' ')}")
+        ui.indicateurs([
+            ("Critiques du thème", ap.fr_entier(t["effectif"]), "bleu", f"{ap.fr_nombre(t['part_corpus_pct'], 1)} % du corpus"),
+            ("Avis positifs", ap.fr_entier(t["avis_positifs"]), "vert", f"{ap.fr_nombre(l['prevalence_positif_pct'], 1)} % des avis positifs"),
+            ("Avis négatifs", ap.fr_entier(t["avis_negatifs"]), "rouge", f"{ap.fr_nombre(l['prevalence_negatif_pct'], 1)} % des avis négatifs"),
+            ("Écart", ui.fr_ecart(l["ecart_points"]), "orange", f"IC 95 % : {ap.fr_nombre(l['ic95_bas'], 1)} à {ap.fr_nombre(l['ic95_haut'], 1)}"),
+        ])
+
+    phrases = metriques["bertopic"]["extension_phrases"]
     with st.expander("Extension exploratoire : thèmes et sentiment par phrase", icon=":material/science:"):
         st.warning(phrases["avertissement"], icon=":material/science:")
         mixtes = phrases["critiques_mixtes"]["seuils_figes"]
-        x, y, z = st.columns(3)
-        x.metric("Phrases scorées", ap.fr_entier(phrases["phrases_scorees"]))
-        y.metric("Phrases hors aspect", ap.fr_pct(phrases["part_phrases_hors_aspect"]))
-        z.metric("Avis positifs à phrase négative", ap.fr_pct(mixtes["critiques_positives_avec_une_phrase_negative"]))
-        st.markdown(
-            f"Accord modeste avec VADER sur les phrases : {ap.fr_pct(phrases['accord_vader']['accord_brut_vader_non_neutre'])}, "
-            f"kappa {ap.fr_nombre(phrases['accord_vader']['kappa_cohen_vader_non_neutre'], 3)}. VADER n'est pas une vérité de référence."
-        )
+        ui.indicateurs([
+            ("Phrases scorées", ap.fr_entier(phrases["phrases_scorees"]), "bleu"),
+            ("Phrases hors aspect", ap.fr_pct(phrases["part_phrases_hors_aspect"]), "orange"),
+            ("Avis positifs à phrase négative", ap.fr_pct(mixtes["critiques_positives_avec_une_phrase_negative"]), "rouge"),
+        ])
 
 
-ui.entete(
-    "De quoi parlent les critiques ?",
-    "Comparez les thèmes des avis favorables et défavorables, avec trois méthodes. Tous les résultats sont précalculés.",
-)
-methode = st.segmented_control("Méthode", list(METHODES), default="NMF (retenu)", required=True, key="methode_themes")
+def afficher_comparaison() -> None:
+    """Tableau des trois méthodes, sur leurs propres corpus et réglages."""
+    reglage = colab["reglage_retenu"]
+    nmf, lda = topics["choix_k"]["nmf"], topics["choix_k"]["lda"]
+    jac = {c: topics["stabilite"].get(c, {}).get("jaccard_moyen") for c in ("nmf", "lda")}
+    with ui.carte("comparaison_methodes"):
+        st.subheader("Comparaison des trois méthodes de modélisation thématique", anchor=False)
+        st.table(pd.DataFrame({
+            "NMF (par défaut)": {
+                "Nombre de thèmes": nmf["k"], "Cohérence c_v": ap.fr_nombre(nmf["c_v"], 3), "Diversité": ap.fr_nombre(nmf["diversite"], 3),
+                "Stabilité (Jaccard)": ap.fr_nombre(jac["nmf"], 3) if jac["nmf"] else "—", "Critiques": ap.fr_entier(topics["corpus"]["documents"]),
+            },
+            "LDA": {
+                "Nombre de thèmes": lda["k"], "Cohérence c_v": ap.fr_nombre(lda["c_v"], 3), "Diversité": ap.fr_nombre(lda["diversite"], 3),
+                "Stabilité (Jaccard)": ap.fr_nombre(jac["lda"], 3) if jac["lda"] else "—", "Critiques": ap.fr_entier(topics["corpus"]["documents"]),
+            },
+            "BERTopic (BGE-M3, k-means)": {
+                "Nombre de thèmes": reglage["n_themes"], "Cohérence c_v": ap.fr_nombre(reglage["c_v"], 3), "Diversité": ap.fr_nombre(reglage["diversite"], 3),
+                "Stabilité (Jaccard)": ap.fr_nombre(reglage["stabilite_jaccard_moyen"], 3), "Critiques": ap.fr_entier(colab["critiques"]),
+            },
+        }).astype(str))
+
+
+ui.entete("Modélisation thématique des critiques et comparaison selon la polarité")
+methode = st.segmented_control("Méthode", list(METHODES), default="NMF (par défaut)", required=True, key="methode_themes")
 if METHODES[methode] == "bertopic":
     afficher_bertopic()
 else:
     afficher_cours(METHODES[methode])
-ui.pied(artefacts, "Thèmes descriptifs, ajustés sans les étiquettes.")
+afficher_comparaison()
+
+ui.commentaire(artefacts, [
+    f"**Ce qui est présenté.** Trois méthodes décrivent les thèmes des critiques : NMF à {topics['choix_k']['nmf']['k']} thèmes (méthode par défaut), "
+    f"LDA à {topics['choix_k']['lda']['k']} thèmes (contrôle) et BERTopic, calculé sur Google Colab avec l'encodeur BGE-M3 sur les "
+    f"{ap.fr_entier(colab['critiques'])} critiques, regroupées en {colab['reglage_retenu']['n_themes']} thèmes par k-means. "
+    "Les thèmes décrivent le corpus ; ils sont ajustés sans les étiquettes de sentiment.",
+    "**Comment lire.** L'écart de prévalence est la part moyenne d'un thème dans les avis positifs moins sa part dans les avis négatifs "
+    "(barres fines : intervalle de confiance à 95 %). Pour BERTopic, chaque critique appartient à un seul thème et la part est le "
+    "pourcentage de critiques de chaque polarité classées dans ce thème. La carte en deux dimensions montre un échantillon de "
+    "4 000 critiques tirées au hasard (graine 42).",
+    "**Précautions.** Le nom français des 30 thèmes BERTopic est une proposition, à relire (`docs/noms_themes_bertopic.md`). "
+    "La stabilité de BERTopic est modérée. Les résultats BERTopic sont précalculés : le modèle ne tourne pas dans cette application. "
+    f"Calcul Colab du {colab['date_calcul_utc'][:10]}, source `colab/resultats_colab.zip`.",
+])

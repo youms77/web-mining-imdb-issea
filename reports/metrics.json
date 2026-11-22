@@ -7524,5 +7524,1245 @@
       "debordements_horizontaux": 0,
       "note": "Mesure locale. La mémoire sur Streamlit Community Cloud (Linux) reste à mesurer en phase 8."
     }
+  },
+  "bertopic_colab": {
+    "statut": "complet",
+    "date_calcul_utc": "2026-11-22T22:35:55+00:00",
+    "source": "colab/resultats_colab.zip (résultats.json, attributions.parquet), extrait dans data/interim/colab/",
+    "critiques": 49575,
+    "empreinte_entree": "4ea090cf9f1214b243d873daefcd00fd41ab1e4ba2e623e6f26c27f7f9728b39",
+    "encodeur": {
+      "nom": "BAAI/bge-m3",
+      "revision": "5617a9f61b028005a4858fdac845db406aefb181",
+      "max_jetons": 8192,
+      "pooling": "cls",
+      "licence": "MIT"
+    },
+    "materiel": "Tesla T4",
+    "versions": {
+      "python": "3.13.16",
+      "torch": "2.14.1+cu130",
+      "transformers": "5.22.1",
+      "bertopic": "0.17.4",
+      "umap-learn": "0.6.0",
+      "hdbscan": "0.8.44",
+      "scikit-learn": "1.6.1",
+      "gensim": "4.4.0",
+      "numpy": "2.4.6",
+      "pandas": "2.2.3",
+      "pyarrow": "23.0.1"
+    },
+    "reglage_retenu": {
+      "identifiant": "sans_generiques__acp50_sans_axe1__kmeans_30",
+      "methode": "k-means",
+      "n_themes": 30,
+      "texte": "sans les mots génériques (movie, film, watch…)",
+      "reduction": "ACP à 50 axes, axe 1 retiré",
+      "raison_axe_1": "l'axe 1 est fortement lié au sentiment (corrélation 0.80) ; le retirer évite de regrouper les critiques par polarité",
+      "part_hors_theme": 0.0,
+      "plus_grand_theme_part": 0.05258698940998487,
+      "diversite": 0.76,
+      "c_v": 0.551387789109566,
+      "c_npmi": 0.05905691684327626,
+      "stabilite_jaccard_moyen": 0.6256396381396381,
+      "stabilite_par_graine": [
+        0.5724136974136974,
+        0.6788655788655789
+      ],
+      "stabilite_part_sous_echantillon": 0.8
+    },
+    "regle_de_choix": "Parmi les réglages ayant de 8 à 40 thèmes, au plus 20 % de critiques hors thème, un plus grand thème d'au plus 35 % du corpus et une diversité d'au moins 0,70, garder ceux dont la cohérence c_v est à moins de 0,01 de la meilleure. Prendre celui qui laisse le moins de critiques hors thème, puis celui qui a le moins de thèmes. Les étiquettes de sentiment ne servent pas au choix.",
+    "grille": {
+      "reglages_evalues": 36,
+      "reglages_kmeans": 20,
+      "reglages_hdbscan": 16,
+      "hdbscan_themes_max": 4,
+      "hdbscan_plus_grand_theme_min": 0.6799596570852244
+    },
+    "polarite": {
+      "avis_positifs": 24881,
+      "avis_negatifs": 24694,
+      "themes": [
+        {
+          "topic": 0,
+          "nom": "Jeu d'acteurs et distribution",
+          "prevalence_positif_pct": 6.366,
+          "prevalence_negatif_pct": 4.143,
+          "ecart_points": 2.224,
+          "ic95_bas": 1.831,
+          "ic95_haut": 2.616
+        },
+        {
+          "topic": 1,
+          "nom": "Rôles féminins et vie de couple",
+          "prevalence_positif_pct": 5.595,
+          "prevalence_negatif_pct": 4.746,
+          "ecart_points": 0.849,
+          "ic95_bas": 0.459,
+          "ic95_haut": 1.238
+        },
+        {
+          "topic": 2,
+          "nom": "Séries télévisées et sitcoms",
+          "prevalence_positif_pct": 4.923,
+          "prevalence_negatif_pct": 4.787,
+          "ecart_points": 0.137,
+          "ic95_bas": -0.242,
+          "ic95_haut": 0.515
+        },
+        {
+          "topic": 3,
+          "nom": "Policier, crime et enquêtes",
+          "prevalence_positif_pct": 4.759,
+          "prevalence_negatif_pct": 4.766,
+          "ecart_points": -0.008,
+          "ic95_bas": -0.383,
+          "ic95_haut": 0.367
+        },
+        {
+          "topic": 4,
+          "nom": "Intrigue, scénario et personnages",
+          "prevalence_positif_pct": 4.803,
+          "prevalence_negatif_pct": 4.689,
+          "ecart_points": 0.113,
+          "ic95_bas": -0.261,
+          "ic95_haut": 0.488
+        },
+        {
+          "topic": 5,
+          "nom": "Cinéma français et européen",
+          "prevalence_positif_pct": 4.948,
+          "prevalence_negatif_pct": 3.466,
+          "ecart_points": 1.481,
+          "ic95_bas": 1.128,
+          "ic95_haut": 1.834
+        },
+        {
+          "topic": 6,
+          "nom": "Jugements très négatifs (déception, argent perdu)",
+          "prevalence_positif_pct": 2.399,
+          "prevalence_negatif_pct": 5.738,
+          "ecart_points": -3.339,
+          "ic95_bas": -3.686,
+          "ic95_haut": -2.992
+        },
+        {
+          "topic": 7,
+          "nom": "Achat et édition en DVD et VHS",
+          "prevalence_positif_pct": 4.96,
+          "prevalence_negatif_pct": 3.061,
+          "ecart_points": 1.898,
+          "ic95_bas": 1.553,
+          "ic95_haut": 2.243
+        },
+        {
+          "topic": 8,
+          "nom": "Science-fiction et extraterrestres",
+          "prevalence_positif_pct": 2.548,
+          "prevalence_negatif_pct": 5.37,
+          "ecart_points": -2.822,
+          "ic95_bas": -3.164,
+          "ic95_haut": -2.479
+        },
+        {
+          "topic": 9,
+          "nom": "Rôles d'actrices et personnages féminins",
+          "prevalence_positif_pct": 3.597,
+          "prevalence_negatif_pct": 4.159,
+          "ecart_points": -0.562,
+          "ic95_bas": -0.902,
+          "ic95_haut": -0.222
+        },
+        {
+          "topic": 10,
+          "nom": "Films d'animation et dessins animés",
+          "prevalence_positif_pct": 4.489,
+          "prevalence_negatif_pct": 3.118,
+          "ecart_points": 1.371,
+          "ic95_bas": 1.035,
+          "ic95_haut": 1.708
+        },
+        {
+          "topic": 11,
+          "nom": "Vie, amour et relations",
+          "prevalence_positif_pct": 3.77,
+          "prevalence_negatif_pct": 3.722,
+          "ecart_points": 0.048,
+          "ic95_bas": -0.286,
+          "ic95_haut": 0.383
+        },
+        {
+          "topic": 12,
+          "nom": "Horreur à petit budget",
+          "prevalence_positif_pct": 2.986,
+          "prevalence_negatif_pct": 4.434,
+          "ecart_points": -1.448,
+          "ic95_bas": -1.781,
+          "ic95_haut": -1.115
+        },
+        {
+          "topic": 13,
+          "nom": "Documentaires et religion",
+          "prevalence_positif_pct": 3.967,
+          "prevalence_negatif_pct": 3.422,
+          "ecart_points": 0.545,
+          "ic95_bas": 0.213,
+          "ic95_haut": 0.877
+        },
+        {
+          "topic": 14,
+          "nom": "Comédie et humour",
+          "prevalence_positif_pct": 3.296,
+          "prevalence_negatif_pct": 3.632,
+          "ecart_points": -0.337,
+          "ic95_bas": -0.659,
+          "ic95_haut": -0.015
+        },
+        {
+          "topic": 15,
+          "nom": "Guerre et Seconde Guerre mondiale",
+          "prevalence_positif_pct": 3.943,
+          "prevalence_negatif_pct": 2.584,
+          "ecart_points": 1.359,
+          "ic95_bas": 1.047,
+          "ic95_haut": 1.672
+        },
+        {
+          "topic": 16,
+          "nom": "Cinéma asiatique et arts martiaux",
+          "prevalence_positif_pct": 3.919,
+          "prevalence_negatif_pct": 2.304,
+          "ecart_points": 1.614,
+          "ic95_bas": 1.309,
+          "ic95_haut": 1.92
+        },
+        {
+          "topic": 17,
+          "nom": "Horreur : tueurs et monstres",
+          "prevalence_positif_pct": 1.965,
+          "prevalence_negatif_pct": 4.203,
+          "ecart_points": -2.238,
+          "ic95_bas": -2.542,
+          "ic95_haut": -1.934
+        },
+        {
+          "topic": 18,
+          "nom": "Westerns et histoire américaine",
+          "prevalence_positif_pct": 3.617,
+          "prevalence_negatif_pct": 2.288,
+          "ecart_points": 1.329,
+          "ic95_bas": 1.032,
+          "ic95_haut": 1.627
+        },
+        {
+          "topic": 19,
+          "nom": "Zombies et horreur gore",
+          "prevalence_positif_pct": 1.76,
+          "prevalence_negatif_pct": 4.094,
+          "ecart_points": -2.334,
+          "ic95_bas": -2.63,
+          "ic95_haut": -2.037
+        },
+        {
+          "topic": 20,
+          "nom": "Adaptations de romans et classiques",
+          "prevalence_positif_pct": 2.359,
+          "prevalence_negatif_pct": 3.292,
+          "ecart_points": -0.933,
+          "ic95_bas": -1.225,
+          "ic95_haut": -0.641
+        },
+        {
+          "topic": 21,
+          "nom": "Films d'action",
+          "prevalence_positif_pct": 2.299,
+          "prevalence_negatif_pct": 3.159,
+          "ecart_points": -0.86,
+          "ic95_bas": -1.147,
+          "ic95_haut": -0.573
+        },
+        {
+          "topic": 22,
+          "nom": "Comédies musicales et danse",
+          "prevalence_positif_pct": 2.641,
+          "prevalence_negatif_pct": 2.252,
+          "ecart_points": 0.389,
+          "ic95_bas": 0.117,
+          "ic95_haut": 0.661
+        },
+        {
+          "topic": 23,
+          "nom": "Animation japonaise et jeux",
+          "prevalence_positif_pct": 2.637,
+          "prevalence_negatif_pct": 1.944,
+          "ecart_points": 0.693,
+          "ic95_bas": 0.43,
+          "ic95_haut": 0.956
+        },
+        {
+          "topic": 24,
+          "nom": "Comédies classiques et duos comiques",
+          "prevalence_positif_pct": 2.371,
+          "prevalence_negatif_pct": 2.069,
+          "ecart_points": 0.302,
+          "ic95_bas": 0.043,
+          "ic95_haut": 0.561
+        },
+        {
+          "topic": 25,
+          "nom": "Musique, concerts et groupes",
+          "prevalence_positif_pct": 2.504,
+          "prevalence_negatif_pct": 1.158,
+          "ecart_points": 1.346,
+          "ic95_bas": 1.11,
+          "ic95_haut": 1.581
+        },
+        {
+          "topic": 26,
+          "nom": "Horreur italienne (giallo)",
+          "prevalence_positif_pct": 1.596,
+          "prevalence_negatif_pct": 2.069,
+          "ecart_points": -0.474,
+          "ic95_bas": -0.71,
+          "ic95_haut": -0.238
+        },
+        {
+          "topic": 27,
+          "nom": "Séries de science-fiction et catch",
+          "prevalence_positif_pct": 2.054,
+          "prevalence_negatif_pct": 1.583,
+          "ecart_points": 0.47,
+          "ic95_bas": 0.235,
+          "ic95_haut": 0.706
+        },
+        {
+          "topic": 28,
+          "nom": "Cinéma indien (Bollywood)",
+          "prevalence_positif_pct": 1.732,
+          "prevalence_negatif_pct": 1.681,
+          "ecart_points": 0.052,
+          "ic95_bas": -0.176,
+          "ic95_haut": 0.28
+        },
+        {
+          "topic": 29,
+          "nom": "Films de guerre et d'action militaire",
+          "prevalence_positif_pct": 1.198,
+          "prevalence_negatif_pct": 2.065,
+          "ecart_points": -0.868,
+          "ic95_bas": -1.091,
+          "ic95_haut": -0.645
+        }
+      ]
+    },
+    "themes": [
+      {
+        "topic": 0,
+        "nom": "Jeu d'acteurs et distribution",
+        "mots": [
+          "actor",
+          "performance",
+          "acting",
+          "act",
+          "cast",
+          "ever",
+          "best",
+          "role",
+          "funny",
+          "excellent"
+        ],
+        "effectif": 2607,
+        "part_corpus_pct": 5.26,
+        "avis_positifs": 1584,
+        "avis_negatifs": 1023,
+        "c_v": 0.5107
+      },
+      {
+        "topic": 1,
+        "nom": "Rôles féminins et vie de couple",
+        "mots": [
+          "woman",
+          "husband",
+          "role",
+          "wife",
+          "performance",
+          "mother",
+          "comedy",
+          "actress",
+          "young",
+          "star"
+        ],
+        "effectif": 2564,
+        "part_corpus_pct": 5.17,
+        "avis_positifs": 1392,
+        "avis_negatifs": 1172,
+        "c_v": 0.4767
+      },
+      {
+        "topic": 2,
+        "nom": "Séries télévisées et sitcoms",
+        "mots": [
+          "episode",
+          "season",
+          "series",
+          "funny",
+          "sitcom",
+          "joke",
+          "television",
+          "comedy",
+          "cancel",
+          "laugh"
+        ],
+        "effectif": 2407,
+        "part_corpus_pct": 4.86,
+        "avis_positifs": 1225,
+        "avis_negatifs": 1182,
+        "c_v": 0.6478
+      },
+      {
+        "topic": 3,
+        "nom": "Policier, crime et enquêtes",
+        "mots": [
+          "murder",
+          "cop",
+          "crime",
+          "police",
+          "kill",
+          "man",
+          "killer",
+          "detective",
+          "guy",
+          "thriller"
+        ],
+        "effectif": 2361,
+        "part_corpus_pct": 4.76,
+        "avis_positifs": 1184,
+        "avis_negatifs": 1177,
+        "c_v": 0.5952
+      },
+      {
+        "topic": 4,
+        "nom": "Intrigue, scénario et personnages",
+        "mots": [
+          "story",
+          "plot",
+          "acting",
+          "character",
+          "love",
+          "feel",
+          "minute",
+          "book",
+          "expect",
+          "script"
+        ],
+        "effectif": 2353,
+        "part_corpus_pct": 4.75,
+        "avis_positifs": 1195,
+        "avis_negatifs": 1158,
+        "c_v": 0.3942
+      },
+      {
+        "topic": 5,
+        "nom": "Cinéma français et européen",
+        "mots": [
+          "french",
+          "paris",
+          "france",
+          "love",
+          "woman",
+          "director",
+          "cinema",
+          "life",
+          "italian",
+          "jean"
+        ],
+        "effectif": 2087,
+        "part_corpus_pct": 4.21,
+        "avis_positifs": 1231,
+        "avis_negatifs": 856,
+        "c_v": 0.5091
+      },
+      {
+        "topic": 6,
+        "nom": "Jugements très négatifs (déception, argent perdu)",
+        "mots": [
+          "ever",
+          "rent",
+          "waste",
+          "horrible",
+          "awful",
+          "terrible",
+          "acting",
+          "act",
+          "money",
+          "crap"
+        ],
+        "effectif": 2014,
+        "part_corpus_pct": 4.06,
+        "avis_positifs": 597,
+        "avis_negatifs": 1417,
+        "c_v": 0.5412
+      },
+      {
+        "topic": 7,
+        "nom": "Achat et édition en DVD et VHS",
+        "mots": [
+          "dvd",
+          "buy",
+          "remember",
+          "saw",
+          "copy",
+          "release",
+          "vhs",
+          "available",
+          "video",
+          "purchase"
+        ],
+        "effectif": 1990,
+        "part_corpus_pct": 4.01,
+        "avis_positifs": 1234,
+        "avis_negatifs": 756,
+        "c_v": 0.6472
+      },
+      {
+        "topic": 8,
+        "nom": "Science-fiction et extraterrestres",
+        "mots": [
+          "alien",
+          "space",
+          "sci",
+          "scientist",
+          "monster",
+          "earth",
+          "planet",
+          "special_effect",
+          "science_fiction",
+          "creature"
+        ],
+        "effectif": 1960,
+        "part_corpus_pct": 3.95,
+        "avis_positifs": 634,
+        "avis_negatifs": 1326,
+        "c_v": 0.7681
+      },
+      {
+        "topic": 9,
+        "nom": "Rôles d'actrices et personnages féminins",
+        "mots": [
+          "actress",
+          "role",
+          "performance",
+          "character",
+          "actor",
+          "cast",
+          "love",
+          "modesty",
+          "girl",
+          "acting"
+        ],
+        "effectif": 1922,
+        "part_corpus_pct": 3.88,
+        "avis_positifs": 895,
+        "avis_negatifs": 1027,
+        "c_v": 0.4633
+      },
+      {
+        "topic": 10,
+        "nom": "Films d'animation et dessins animés",
+        "mots": [
+          "cartoon",
+          "animation",
+          "disney",
+          "kid",
+          "child",
+          "cat",
+          "cinderella",
+          "voice",
+          "dog",
+          "animal"
+        ],
+        "effectif": 1887,
+        "part_corpus_pct": 3.81,
+        "avis_positifs": 1117,
+        "avis_negatifs": 770,
+        "c_v": 0.6193
+      },
+      {
+        "topic": 11,
+        "nom": "Vie, amour et relations",
+        "mots": [
+          "life",
+          "story",
+          "love",
+          "feel",
+          "gay",
+          "sex",
+          "woman",
+          "relationship",
+          "world",
+          "character"
+        ],
+        "effectif": 1857,
+        "part_corpus_pct": 3.75,
+        "avis_positifs": 938,
+        "avis_negatifs": 919,
+        "c_v": 0.4223
+      },
+      {
+        "topic": 12,
+        "nom": "Horreur à petit budget",
+        "mots": [
+          "horror",
+          "scary",
+          "gore",
+          "vampire",
+          "rent",
+          "low_budget",
+          "blood",
+          "acting",
+          "creepy",
+          "killer"
+        ],
+        "effectif": 1838,
+        "part_corpus_pct": 3.71,
+        "avis_positifs": 743,
+        "avis_negatifs": 1095,
+        "c_v": 0.6405
+      },
+      {
+        "topic": 13,
+        "nom": "Documentaires et religion",
+        "mots": [
+          "documentary",
+          "christian",
+          "interview",
+          "god",
+          "bible",
+          "jesus",
+          "world",
+          "religion",
+          "footage",
+          "life"
+        ],
+        "effectif": 1832,
+        "part_corpus_pct": 3.7,
+        "avis_positifs": 987,
+        "avis_negatifs": 845,
+        "c_v": 0.5737
+      },
+      {
+        "topic": 14,
+        "nom": "Comédie et humour",
+        "mots": [
+          "funny",
+          "laugh",
+          "comedy",
+          "joke",
+          "humor",
+          "kid",
+          "ever",
+          "saw",
+          "hilarious",
+          "stupid"
+        ],
+        "effectif": 1717,
+        "part_corpus_pct": 3.46,
+        "avis_positifs": 820,
+        "avis_negatifs": 897,
+        "c_v": 0.569
+      },
+      {
+        "topic": 15,
+        "nom": "Guerre et Seconde Guerre mondiale",
+        "mots": [
+          "war",
+          "german",
+          "hitler",
+          "soldier",
+          "russian",
+          "nazi",
+          "che",
+          "germany",
+          "country",
+          "soviet"
+        ],
+        "effectif": 1619,
+        "part_corpus_pct": 3.27,
+        "avis_positifs": 981,
+        "avis_negatifs": 638,
+        "c_v": 0.6418
+      },
+      {
+        "topic": 16,
+        "nom": "Cinéma asiatique et arts martiaux",
+        "mots": [
+          "japanese",
+          "kung",
+          "japan",
+          "martial_art",
+          "chinese",
+          "hong_kong",
+          "fight",
+          "ninja",
+          "asian",
+          "korean"
+        ],
+        "effectif": 1544,
+        "part_corpus_pct": 3.11,
+        "avis_positifs": 975,
+        "avis_negatifs": 569,
+        "c_v": 0.6918
+      },
+      {
+        "topic": 17,
+        "nom": "Horreur : tueurs et monstres",
+        "mots": [
+          "horror",
+          "slasher",
+          "house",
+          "killer",
+          "kill",
+          "gore",
+          "blood",
+          "dracula",
+          "monster",
+          "creepy"
+        ],
+        "effectif": 1527,
+        "part_corpus_pct": 3.08,
+        "avis_positifs": 489,
+        "avis_negatifs": 1038,
+        "c_v": 0.6293
+      },
+      {
+        "topic": 18,
+        "nom": "Westerns et histoire américaine",
+        "mots": [
+          "western",
+          "tarzan",
+          "custer",
+          "war",
+          "indian",
+          "ford",
+          "lincoln",
+          "man",
+          "wagon",
+          "bond"
+        ],
+        "effectif": 1465,
+        "part_corpus_pct": 2.96,
+        "avis_positifs": 900,
+        "avis_negatifs": 565,
+        "c_v": 0.4738
+      },
+      {
+        "topic": 19,
+        "nom": "Zombies et horreur gore",
+        "mots": [
+          "zombie",
+          "horror",
+          "gore",
+          "halloween",
+          "kill",
+          "dead",
+          "snake",
+          "scary",
+          "freddy",
+          "blood"
+        ],
+        "effectif": 1449,
+        "part_corpus_pct": 2.92,
+        "avis_positifs": 438,
+        "avis_negatifs": 1011,
+        "c_v": 0.6406
+      },
+      {
+        "topic": 20,
+        "nom": "Adaptations de romans et classiques",
+        "mots": [
+          "book",
+          "novel",
+          "shakespeare",
+          "adaptation",
+          "version",
+          "hamlet",
+          "read",
+          "rochester",
+          "victoria",
+          "jane_austen"
+        ],
+        "effectif": 1400,
+        "part_corpus_pct": 2.82,
+        "avis_positifs": 587,
+        "avis_negatifs": 813,
+        "c_v": 0.4939
+      },
+      {
+        "topic": 21,
+        "nom": "Films d'action",
+        "mots": [
+          "bourne",
+          "action",
+          "evan",
+          "almighty",
+          "actor",
+          "lonesome_dove",
+          "role",
+          "van_damme",
+          "original",
+          "performance"
+        ],
+        "effectif": 1352,
+        "part_corpus_pct": 2.73,
+        "avis_positifs": 572,
+        "avis_negatifs": 780,
+        "c_v": 0.2951
+      },
+      {
+        "topic": 22,
+        "nom": "Comédies musicales et danse",
+        "mots": [
+          "musical",
+          "song",
+          "dance",
+          "sing",
+          "broadway",
+          "music",
+          "streisand",
+          "stage",
+          "singer",
+          "gene_kelly"
+        ],
+        "effectif": 1213,
+        "part_corpus_pct": 2.45,
+        "avis_positifs": 657,
+        "avis_negatifs": 556,
+        "c_v": 0.7689
+      },
+      {
+        "topic": 23,
+        "nom": "Animation japonaise et jeux",
+        "mots": [
+          "game",
+          "anime",
+          "animation",
+          "miyazaki",
+          "ponyo",
+          "gundam",
+          "graphic",
+          "bakshi",
+          "series",
+          "gamera"
+        ],
+        "effectif": 1136,
+        "part_corpus_pct": 2.29,
+        "avis_positifs": 656,
+        "avis_negatifs": 480,
+        "c_v": 0.316
+      },
+      {
+        "topic": 24,
+        "nom": "Comédies classiques et duos comiques",
+        "mots": [
+          "columbo",
+          "comedy",
+          "funny",
+          "ollie",
+          "stan",
+          "stooge",
+          "hardy",
+          "radio",
+          "gag",
+          "shemp"
+        ],
+        "effectif": 1101,
+        "part_corpus_pct": 2.22,
+        "avis_positifs": 590,
+        "avis_negatifs": 511,
+        "c_v": 0.478
+      },
+      {
+        "topic": 25,
+        "nom": "Musique, concerts et groupes",
+        "mots": [
+          "song",
+          "band",
+          "music",
+          "rock",
+          "concert",
+          "ramones",
+          "michael_jackson",
+          "music_video",
+          "album",
+          "monkees"
+        ],
+        "effectif": 909,
+        "part_corpus_pct": 1.83,
+        "avis_positifs": 623,
+        "avis_negatifs": 286,
+        "c_v": 0.6045
+      },
+      {
+        "topic": 26,
+        "nom": "Horreur italienne (giallo)",
+        "mots": [
+          "fulci",
+          "giallo",
+          "italian",
+          "argento",
+          "horror",
+          "sex",
+          "woman",
+          "castle",
+          "opera",
+          "elvira"
+        ],
+        "effectif": 908,
+        "part_corpus_pct": 1.83,
+        "avis_positifs": 397,
+        "avis_negatifs": 511,
+        "c_v": 0.4987
+      },
+      {
+        "topic": 27,
+        "nom": "Séries de science-fiction et catch",
+        "mots": [
+          "episode",
+          "batman",
+          "match",
+          "season",
+          "series",
+          "star_trek",
+          "spock",
+          "kirk",
+          "sci",
+          "wwe"
+        ],
+        "effectif": 902,
+        "part_corpus_pct": 1.82,
+        "avis_positifs": 511,
+        "avis_negatifs": 391,
+        "c_v": 0.4802
+      },
+      {
+        "topic": 28,
+        "nom": "Cinéma indien (Bollywood)",
+        "mots": [
+          "bollywood",
+          "india",
+          "indian",
+          "khan",
+          "kapoor",
+          "hindi",
+          "amitabh",
+          "song",
+          "gandhi",
+          "raj"
+        ],
+        "effectif": 846,
+        "part_corpus_pct": 1.71,
+        "avis_positifs": 431,
+        "avis_negatifs": 415,
+        "c_v": 0.7953
+      },
+      {
+        "topic": 29,
+        "nom": "Films de guerre et d'action militaire",
+        "mots": [
+          "car",
+          "shoot",
+          "guy",
+          "marine",
+          "kill",
+          "plane",
+          "aircraft",
+          "begotten",
+          "use",
+          "scene"
+        ],
+        "effectif": 808,
+        "part_corpus_pct": 1.63,
+        "avis_positifs": 298,
+        "avis_negatifs": 510,
+        "c_v": 0.3554
+      }
+    ],
+    "durees_s": {
+      "comptage_jetons_complet_s": 55.9,
+      "encodage_complet_s": 776.1,
+      "comptage_jetons_sans_generiques_s": 45.3,
+      "encodage_sans_generiques_s": 765.9,
+      "acp_s": 10.3,
+      "umap_s": 336.4,
+      "grille_bertopic_s": 425.6,
+      "coherence_s": 105.0,
+      "stabilite_s": 110.8,
+      "carte_2d_s": 45.2
+    },
+    "noms_themes": "propositions en français à partir des mots de chaque thème, à relire (docs/noms_themes_bertopic.md)"
+  },
+  "refonte_agregats": {
+    "note": "Agrégats calculés par src/refonte_artefacts.py ; courbes tracées dans models/deploy/agregats_refonte.json",
+    "auc_recalculee_test": {
+      "naive_bayes_bow": 0.946338,
+      "naive_bayes_tfidf": 0.961389,
+      "regression_logistique": 0.974815,
+      "svm_lineaire": 0.975379,
+      "vader_compound": 0.785956
+    },
+    "histogramme_longueurs": {
+      "pas_mots": 25,
+      "maximum_affiche": 900,
+      "bornes": [
+        0,
+        25,
+        50,
+        75,
+        100,
+        125,
+        150,
+        175,
+        200,
+        225,
+        250,
+        275,
+        300,
+        325,
+        350,
+        375,
+        400,
+        425,
+        450,
+        475,
+        500,
+        525,
+        550,
+        575,
+        600,
+        625,
+        650,
+        675,
+        700,
+        725,
+        750,
+        775,
+        800,
+        825,
+        850,
+        875
+      ],
+      "classes": {
+        "negative": {
+          "effectifs": [
+            25,
+            491,
+            1069,
+            1230,
+            2949,
+            3950,
+            2815,
+            2129,
+            1581,
+            1267,
+            974,
+            902,
+            697,
+            613,
+            588,
+            437,
+            387,
+            318,
+            299,
+            234,
+            203,
+            190,
+            160,
+            137,
+            109,
+            99,
+            102,
+            80,
+            76,
+            58,
+            70,
+            65,
+            49,
+            39,
+            43,
+            40
+          ],
+          "au_dela": 219,
+          "total": 24694
+        },
+        "positive": {
+          "effectifs": [
+            31,
+            618,
+            1382,
+            1299,
+            3005,
+            3782,
+            2657,
+            1997,
+            1524,
+            1234,
+            906,
+            856,
+            722,
+            582,
+            509,
+            419,
+            400,
+            320,
+            294,
+            280,
+            245,
+            192,
+            194,
+            170,
+            160,
+            115,
+            107,
+            107,
+            94,
+            84,
+            62,
+            73,
+            59,
+            54,
+            28,
+            49
+          ],
+          "au_dela": 271,
+          "total": 24881
+        }
+      }
+    },
+    "exactitude_par_probabilite": {
+      "seuil_bas": 0.28,
+      "seuil_haut": 0.72,
+      "tranches": [
+        {
+          "bas": 0.0,
+          "haut": 0.05,
+          "effectif": 3128,
+          "corrects": 3097
+        },
+        {
+          "bas": 0.05,
+          "haut": 0.1,
+          "effectif": 497,
+          "corrects": 465
+        },
+        {
+          "bas": 0.1,
+          "haut": 0.15,
+          "effectif": 276,
+          "corrects": 249
+        },
+        {
+          "bas": 0.15,
+          "haut": 0.2,
+          "effectif": 196,
+          "corrects": 160
+        },
+        {
+          "bas": 0.2,
+          "haut": 0.25,
+          "effectif": 182,
+          "corrects": 151
+        },
+        {
+          "bas": 0.25,
+          "haut": 0.3,
+          "effectif": 128,
+          "corrects": 99
+        },
+        {
+          "bas": 0.3,
+          "haut": 0.35,
+          "effectif": 127,
+          "corrects": 87
+        },
+        {
+          "bas": 0.35,
+          "haut": 0.4,
+          "effectif": 118,
+          "corrects": 81
+        },
+        {
+          "bas": 0.4,
+          "haut": 0.45,
+          "effectif": 111,
+          "corrects": 71
+        },
+        {
+          "bas": 0.45,
+          "haut": 0.5,
+          "effectif": 114,
+          "corrects": 54
+        },
+        {
+          "bas": 0.5,
+          "haut": 0.55,
+          "effectif": 111,
+          "corrects": 60
+        },
+        {
+          "bas": 0.55,
+          "haut": 0.6,
+          "effectif": 105,
+          "corrects": 59
+        },
+        {
+          "bas": 0.6,
+          "haut": 0.65,
+          "effectif": 125,
+          "corrects": 68
+        },
+        {
+          "bas": 0.65,
+          "haut": 0.7,
+          "effectif": 118,
+          "corrects": 81
+        },
+        {
+          "bas": 0.7,
+          "haut": 0.75,
+          "effectif": 155,
+          "corrects": 118
+        },
+        {
+          "bas": 0.75,
+          "haut": 0.8,
+          "effectif": 195,
+          "corrects": 159
+        },
+        {
+          "bas": 0.8,
+          "haut": 0.85,
+          "effectif": 232,
+          "corrects": 196
+        },
+        {
+          "bas": 0.85,
+          "haut": 0.9,
+          "effectif": 325,
+          "corrects": 289
+        },
+        {
+          "bas": 0.9,
+          "haut": 0.95,
+          "effectif": 587,
+          "corrects": 535
+        },
+        {
+          "bas": 0.95,
+          "haut": 1.0,
+          "effectif": 3085,
+          "corrects": 3048
+        }
+      ]
+    }
   }
 }

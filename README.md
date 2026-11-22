@@ -1,6 +1,6 @@
 # Critiques IMDB : thèmes et sentiment
 
-Projet de Web Mining (ISSEA, ISE3-DSM). Quels thèmes reviennent dans les critiques favorables ou défavorables, et peut-on prédire le sentiment d'une nouvelle critique ? Le dépôt contient l'application Streamlit, le code, les chiffres et les figures.
+Projet de Web Mining (ISSEA, ISE3-DSM). Quels thèmes reviennent dans les critiques favorables ou défavorables, et peut-on prédire le sentiment d'une nouvelle critique ? Le dépôt contient l'application Streamlit, le code, les chiffres, les figures et la présentation.
 
 - **Application en ligne :** [URL à compléter après le déploiement]
 - **Auteurs :** [noms à compléter]
@@ -13,11 +13,13 @@ Projet de Web Mining (ISSEA, ISE3-DSM). Quels thèmes reviennent dans les critiq
 ## Ce que contient le dépôt
 | Dossier | Contenu |
 |---|---|
-| `app/` | Application Streamlit, 4 pages (point d'entrée `app/app.py`) et ses dépendances légères `app/requirements.txt` |
+| `app/` | Application Streamlit, 6 pages : Accueil, Analyse descriptive, Exploration des thèmes, Performances des modèles, Analyse d'une nouvelle critique, Méthodologie et limites (point d'entrée `app/app.py`) et ses dépendances légères `app/requirements.txt` |
 | `src/` | Code : prétraitement, vectorisation, thèmes, modèles, évaluation |
 | `models/deploy/` | SVM calibré, NMF et ressources WordNet embarquées, avec leurs notices de licence |
 | `notebooks/` | Notebook du projet, publié **sans sorties** (voir plus bas) |
 | `reports/` | `metrics.json` (source unique des chiffres) et `figures/` |
+| `livrables/` | Présentation du projet (PowerPoint). La vidéo de démonstration de l'application y sera ajoutée |
+| `colab/` | Scripts du calcul BERTopic sur le corpus entier (Google Colab, BGE-M3), sans les résultats bruts |
 | `tests/` | Tests `pytest`, dont ceux de l'application (`AppTest`) |
 | `.streamlit/config.toml` | Thème de l'application |
 
@@ -63,4 +65,4 @@ Les tests qui exigent le corpus, ses caches ou l'historique du dépôt de travai
 ## Limites
 - Le modèle a appris sur des critiques entières en anglais. Sur une phrase seule, un texte dans une autre langue, un avis neutre ou du sarcasme, il peut se tromper : l'application le signale.
 - La séparation entraînement/test est aléatoire, sans identifiant de film : le score de test peut être un peu optimiste.
-- Mémoire mesurée sous Windows en local seulement (pic de 619,9 Mo).
+- Mémoire mesurée sous Windows en local seulement (pic de 619,9 Mo), avant la refonte de l'interface : [à vérifier] sur Streamlit Community Cloud.

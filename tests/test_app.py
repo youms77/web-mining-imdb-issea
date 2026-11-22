@@ -58,7 +58,7 @@ def modules_importes(chemin: Path) -> set[str]:
 # --- Parcours AppTest exigés ---------------------------------------------------------------------
 
 def test_saisie_vide_message_francais():
-    test = lancer()
+    test = lancer("vues/analyser.py")
     test.button(key="analyser").click().run()
     assert not test.exception
     assert "Collez ou écrivez" in test.error[0].value
@@ -66,7 +66,7 @@ def test_saisie_vide_message_francais():
 
 @pytest.mark.parametrize("cle, categorie", [("positif", "positif"), ("negatif", "negatif")])
 def test_exemples_positif_et_negatif(cle, categorie):
-    test = lancer()
+    test = lancer("vues/analyser.py")
     test.button(key=f"exemple_{cle}").click().run()
     assert not test.exception
     resultat = test.session_state["resultat"]
@@ -77,7 +77,7 @@ def test_exemples_positif_et_negatif(cle, categorie):
 
 
 def test_texte_non_anglais_refuse():
-    test = lancer()
+    test = lancer("vues/analyser.py")
     test.text_area(key="texte_critique").set_value(TEXTE_FRANCAIS)
     test.button(key="analyser").click().run()
     assert not test.exception
@@ -86,7 +86,7 @@ def test_texte_non_anglais_refuse():
 
 
 def test_texte_court_score_non_presente_comme_fiable():
-    test = lancer()
+    test = lancer("vues/analyser.py")
     test.text_area(key="texte_critique").set_value(TEXTE_COURT)
     test.button(key="analyser").click().run()
     assert not test.exception
@@ -104,7 +104,7 @@ def test_texte_trop_court_et_trop_long(artefacts):
 
 
 def test_exemple_mitige_affiche_le_resultat_reel(metriques):
-    test = lancer()
+    test = lancer("vues/analyser.py")
     test.button(key="exemple_mitige").click().run()
     assert not test.exception
     info = metriques["application"]["exemple_mitige"]
@@ -134,12 +134,12 @@ def test_fichier_absent_donne_erreur_de_chargement(tmp_path):
         ap.charger_artefacts(dossier=tmp_path)
 
 
-@pytest.mark.parametrize("page", ["vues/explorer.py", "vues/performances.py", "vues/methode.py"])
+@pytest.mark.parametrize("page", ["vues/accueil.py", "vues/descriptive.py", "vues/explorer.py", "vues/performances.py", "vues/analyser.py", "vues/methode.py"])
 def test_pages_sans_exception(page):
     lancer(page)
 
 
-@pytest.mark.parametrize("methode", ["LDA", "BERTopic"])
+@pytest.mark.parametrize("methode", ["LDA", "BERTopic (analyse approfondie)"])
 def test_choix_de_methode(methode):
     test = lancer("vues/explorer.py")
     test.segmented_control(key="methode_themes").set_value(methode).run()
@@ -162,36 +162,41 @@ def test_regle_de_zone_identique_a_la_phase_5(metriques):
     assert ap.categoriser((bas + haut) / 2, bas, haut) == "incertain"
 
 
+def indicateurs_html(test) -> dict[str, str]:
+    """Lit les cartes d'indicateurs (st.html) : {libellé: valeur}."""
+    html = " ".join(e.value for e in test.get("html"))
+    return dict(re.findall(r'<div class="k-lib">(.*?)</div><div class="k-val">(.*?)</div>', html))
+
+
 def test_performances_identiques_a_metrics(metriques):
     test = lancer("vues/performances.py")
     resume = metriques["sentiment"]["resume_modele_retenu"]
-    valeurs = {m.label: m.value for m in test.metric}
+    valeurs = indicateurs_html(test)
     assert valeurs["Exactitude"] == ap.fr_pct(resume["exactitude"], 2)
     assert valeurs["Score F1"] == ap.fr_nombre(resume["f1"], 3)
     assert valeurs["ROC-AUC"] == ap.fr_nombre(resume["roc_auc"], 3)
+    assert valeurs["Calibration (ECE)"] == ap.fr_nombre(resume["ece"], 4)
     zone = metriques["sentiment"]["test"]["zone_incertitude"]
-    assert valeurs["Dans la zone"] == ap.fr_pct(zone["exactitude_dans_la_zone"])
-    assert valeurs["Hors de la zone"] == ap.fr_pct(zone["exactitude_hors_zone"])
+    assert valeurs["Exactitude dans la zone"] == ap.fr_pct(zone["exactitude_dans_la_zone"])
+    assert valeurs["Exactitude hors de la zone"] == ap.fr_pct(zone["exactitude_hors_zone"])
 
 
 def test_bertopic_presente_honnetement(metriques):
     test = lancer("vues/explorer.py")
-    test.segmented_control(key="methode_themes").set_value("BERTopic").run()
-    alerte = test.warning[0].value
-    assert ap.fr_entier(metriques["bertopic"]["echantillon"]["critiques"]) in alerte
-    assert ap.fr_pct(metriques["bertopic"]["concentration"]["bertopic_k8"]["part_hors_topic"]) in alerte
-    assert "NMF reste le modèle commun" in alerte
+    test.segmented_control(key="methode_themes").set_value("BERTopic (analyse approfondie)").run()
+    assert not test.exception
+    colab = metriques["bertopic_colab"]
+    texte = " ".join(m.value for m in test.markdown)
+    assert ap.fr_entier(colab["critiques"]) in texte
+    assert "NMF reste le modèle par défaut" in texte
+    assert ap.fr_nombre(colab["reglage_retenu"]["stabilite_jaccard_moyen"], 3) in " ".join(e.value for e in test.get("html"))
     assert any("exploratoire" in e.label.lower() for e in test.expander)
 
 
 def test_cles_existantes_de_metrics_inchangees(metriques):
-    # Version publiée : le dépôt n'a pas l'historique du projet, donc le commit de référence est absent.
-    try:
-        sortie = subprocess.run(
-            ["git", "show", "967a7e7:reports/metrics.json"], cwd=RACINE, capture_output=True, check=True
-        ).stdout
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pytest.skip("commit de référence absent : test réservé au dépôt de travail")
+    sortie = subprocess.run(
+        ["git", "show", "967a7e7:reports/metrics.json"], cwd=RACINE, capture_output=True, check=True
+    ).stdout
     reference = json.loads(sortie.decode("utf-8"))
     for cle, valeur in reference.items():
         assert metriques[cle] == valeur, cle
@@ -231,9 +236,9 @@ def test_parts_de_themes_sont_des_poids(artefacts):
 
 
 def test_interface_precise_que_les_parts_ne_sont_pas_des_probabilites():
-    test = lancer()
+    test = lancer("vues/analyser.py")
     test.button(key="exemple_positif").click().run()
-    assert any("pas des probabilités" in c.value for c in test.caption)
+    assert any("pas des probabilités" in m.value for m in test.markdown)
 
 
 @pytest.mark.parametrize("texte", [

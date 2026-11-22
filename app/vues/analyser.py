@@ -49,7 +49,7 @@ def phrase_calibration(p: float) -> str:
 
 
 def afficher_verdict(r: dict) -> None:
-    with ui.carte("verdict"):
+    with ui.carte("verdict", ton={"positif": "vert", "negatif": "rouge", "incertain": "orange"}.get(r["categorie"], "bleu") if r["fiable"] else "orange"):
         if not r["fiable"]:
             st.markdown("### :orange[:material/warning:] Score non fiable")
             st.warning(r["avertissement"], icon=":material/short_text:")
@@ -67,10 +67,6 @@ def afficher_verdict(r: dict) -> None:
             f"Jauge : score {ui.fr_proba(r['probabilite_positive'])}, zone d'incertitude entre "
             f"{ap.fr_nombre(r['seuil_bas'], 2)} et {ap.fr_nombre(r['seuil_haut'], 2)}.",
         )
-        st.caption(
-            f"Rouge : négatif. Orange : zone d'incertitude, de {ap.fr_nombre(r['seuil_bas'], 2)} à "
-            f"{ap.fr_nombre(r['seuil_haut'], 2)}. Vert : positif."
-        )
         if r["categorie"] == "incertain":
             st.warning(
                 f"Le modèle ne tranche pas. Dans cette zone, il n'a raison que dans "
@@ -83,18 +79,17 @@ def afficher_verdict(r: dict) -> None:
 
 def afficher_mots(r: dict) -> None:
     with ui.carte("mots"):
-        st.subheader("Les mots qui ont pesé", anchor=False)
+        st.subheader("Contribution des mots à la prédiction", anchor=False)
         st.html(
             '<div class="legende"><span><mark class="mot-pos">souligné plein</mark> pousse vers positif</span>'
             '<span><mark class="mot-neg">pointillé</mark> pousse vers négatif</span></div>'
             f'<div class="texte-analyse">{r["html_surligne"]}</div>'
         )
-        st.caption("Poids du modèle linéaire dans ce texte, avant calibration. Un mot influent n'est pas une explication causale.")
 
 
 def afficher_themes(r: dict) -> None:
     with ui.carte("themes"):
-        st.subheader("Thèmes les plus proches", anchor=False)
+        st.subheader("Thèmes les plus proches de la critique", anchor=False)
         if not r["themes"]:
             st.info("Aucun mot de ce texte n'appartient au vocabulaire des thèmes.", icon=":material/info:")
             return
@@ -106,21 +101,13 @@ def afficher_themes(r: dict) -> None:
             for t in r["themes"]
         )
         st.html(lignes)
-        st.caption(
-            f"Modèle NMF à {metriques['topics']['modele_commun']['k']} thèmes. "
-            "Ces parts sont des poids ramenés à 100 %, pas des probabilités."
-        )
 
 
-ui.entete(
-    "Que dit vraiment cette critique ?",
-    "Collez une critique de film en anglais. L'application estime son sentiment, dit quand elle hésite "
-    "et montre les mots et les thèmes qui comptent.",
-)
+ui.entete("Prédiction du sentiment et des thèmes d'une nouvelle critique")
 
 col_saisie, col_resultat = st.columns([1.08, 1], gap="large")
 with col_saisie:
-    with ui.carte("saisie"):
+    with ui.carte("saisie", ton="bleu"):
         st.markdown("**Essayer un exemple**")
         with st.container(horizontal=True, gap="small"):
             for cle in LIBELLES:
@@ -133,15 +120,12 @@ with col_saisie:
             placeholder="Paste a full movie review here…",
         )
         st.button("Analyser", key="analyser", type="primary", icon=":material/search:", on_click=lancer_analyse, width="stretch")
-        actif = st.session_state.get("exemple_actif")
-        if actif:
-            st.caption(exemples[actif]["origine"])
 
 resultat = st.session_state.get("resultat")
 with col_resultat:
     if resultat is None:
         with ui.carte("attente"):
-            st.markdown("### :blue[:material/movie:] Le résultat s'affichera ici")
+            st.markdown("### :blue[:material/movie:] Résultat de la prédiction")
             st.markdown("Choisissez un exemple ou collez une critique entière, puis lancez l'analyse.")
     elif resultat["statut"] == "erreur":
         st.error(resultat["message"], icon=":material/error:")
@@ -163,4 +147,13 @@ if resultat is not None and resultat["statut"] == "ok" and resultat["fiable"]:
     with col_themes:
         afficher_themes(resultat)
 
-ui.pied(artefacts)
+ui.commentaire(artefacts, [
+    "**Ce qui est présenté.** L'application estime le sentiment d'une critique de film en anglais avec le SVM linéaire calibré retenu, "
+    "indique la zone d'incertitude, surligne les mots qui ont le plus pesé dans le score et situe le texte parmi les "
+    f"{metriques['topics']['modele_commun']['k']} thèmes du modèle NMF.",
+    "**Comment lire.** La probabilité est celle que l'avis soit positif. La jauge est rouge (négatif), orange (zone d'incertitude) puis verte (positif). "
+    "Un mot souligné en trait plein pousse vers positif, en pointillé vers négatif : ce sont les poids du modèle linéaire avant calibration, "
+    "sans valeur d'explication causale. Les parts des thèmes sont des poids ramenés à 100 %, pas des probabilités.",
+    "**Précautions.** Les exemples proposés servent à essayer l'outil ; l'exemple mitigé a été vu à l'entraînement par le modèle gelé. "
+    "Un texte trop court ou qui ne semble pas anglais n'est pas analysé de façon fiable.",
+])

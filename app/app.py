@@ -1,4 +1,4 @@
-"""Point d'entrée de l'application Streamlit : navigation entre les quatre pages.
+"""Point d'entrée de l'application Streamlit : navigation entre les six pages.
 
 Lancement depuis la racine du projet :
     .\\.venv\\Scripts\\python.exe -m streamlit run app/app.py
@@ -25,13 +25,15 @@ st.logo(str(DOSSIER_APP / "assets" / "logo_ISSEA.png"), size="large")
 charger()
 
 pages = [
-    st.Page("vues/analyser.py", title="Analyser une critique", icon=":material/rate_review:", default=True),
-    st.Page("vues/explorer.py", title="Explorer les thèmes", icon=":material/category:"),
-    st.Page("vues/performances.py", title="Performances", icon=":material/monitoring:"),
-    st.Page("vues/methode.py", title="Méthode et limites", icon=":material/menu_book:"),
+    st.Page("vues/accueil.py", title="Accueil", icon=":material/home:", default=True),
+    st.Page("vues/descriptive.py", title="Analyse descriptive", icon=":material/bar_chart:"),
+    st.Page("vues/explorer.py", title="Exploration des thèmes", icon=":material/category:"),
+    st.Page("vues/performances.py", title="Performances des modèles", icon=":material/monitoring:"),
+    st.Page("vues/analyser.py", title="Analyse d'une nouvelle critique", icon=":material/rate_review:"),
+    st.Page("vues/methode.py", title="Méthodologie et limites", icon=":material/menu_book:"),
 ]
 page = st.navigation(pages)
 with st.sidebar:
     st.markdown("**Critiques IMDB**")
-    st.caption("Thèmes et sentiment. Projet de Web Mining, ISSEA, ISE3-DSM.")
+    st.markdown("Web Mining, ISSEA, ISE3 Data Science et Marketing")
 page.run()
