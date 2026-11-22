@@ -1,0 +1,16 @@
+{
+  "commit_des_choix_figes": "7a525de2dc64896233339ab20d44c128e2f4c925",
+  "date_commit_des_choix": "2026-11-22T10:09:37+01:00",
+  "date_predictions": "2026-11-22T10:11:35+01:00",
+  "sha256_predictions": "DD47C93D92AC4F68042680A066FB5667697CD972BD4E909994274027755B05F1",
+  "critiques_de_test": 9915,
+  "etiquettes_lues_pour_predire": false,
+  "deux_rechargements_identiques": {
+    "naive_bayes_bow": true,
+    "naive_bayes_tfidf": true,
+    "regression_logistique": true,
+    "svm_lineaire": true
+  },
+  "date_lecture_etiquettes": "2026-11-22T10:11:52+01:00",
+  "nombre_de_lectures_des_etiquettes": 1
+}

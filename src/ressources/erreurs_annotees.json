@@ -1,0 +1,33 @@
+{
+  "methode": "20 erreurs du modèle retenu tirées au sort sur le test (10 faux positifs, 10 faux négatifs, graine 42), puis lues une à une. Une seule cause principale par critique : ce classement est une interprétation, plusieurs causes peuvent se cumuler.",
+  "causes": {
+    "avis_mitige": "Avis mitigé",
+    "comparaison": "Comparaison avec un autre film ou une référence",
+    "negation": "Négation ou tournure concessive",
+    "resume_intrigue": "Résumé de l'intrigue",
+    "sarcasme": "Sarcasme ou second degré",
+    "autre": "Autre (digression)"
+  },
+  "erreurs": [
+    {"id_brut": 4398, "cause": "resume_intrigue", "explication": "Longue description de l'histoire ; le jugement négatif n'arrive qu'à la fin et reste court."},
+    {"id_brut": 38734, "cause": "avis_mitige", "explication": "Salue la réalisation mais condamne fermement le message du film."},
+    {"id_brut": 4479, "cause": "sarcasme", "explication": "Film « si mauvais qu'il en devient bon » : les mots élogieux sont au second degré."},
+    {"id_brut": 32305, "cause": "avis_mitige", "explication": "Film jugé regardable et moyen, note de 2,5 sur 5, sans verdict tranché."},
+    {"id_brut": 22177, "cause": "comparaison", "explication": "Parle surtout d'œuvres réputées du même genre, dont le vocabulaire positif ne vise pas ce film."},
+    {"id_brut": 21574, "cause": "comparaison", "explication": "Les éloges visent le premier film de la série, pas celui qui est noté."},
+    {"id_brut": 34642, "cause": "sarcasme", "explication": "L'auteur rit du film et le dit « si bon » par moquerie."},
+    {"id_brut": 4934, "cause": "comparaison", "explication": "Admire le sportif et son histoire réelle, puis oppose à cela un film jugé raté."},
+    {"id_brut": 9613, "cause": "resume_intrigue", "explication": "Résumé détaillé d'une affaire judiciaire, suivi d'un avis tiède en fin de texte."},
+    {"id_brut": 43510, "cause": "comparaison", "explication": "Critique le film en le comparant à un meilleur film du même type, et salue un acteur."},
+    {"id_brut": 38533, "cause": "negation", "explication": "Écarte l'avis de ceux qui trouvent le film mauvais : le mot négatif est rejeté par l'auteur."},
+    {"id_brut": 22394, "cause": "avis_mitige", "explication": "Conclut que le film est bon sans être brillant, après un long résumé d'un récit violent."},
+    {"id_brut": 20855, "cause": "negation", "explication": "L'éloge passe par des tournures négatives : succès non obtenu, film déconseillé aux impatients."},
+    {"id_brut": 32044, "cause": "avis_mitige", "explication": "Reconnaît la qualité technique mais juge le film ennuyeux ; le texte paraît plus sévère que son étiquette."},
+    {"id_brut": 41840, "cause": "autre", "explication": "Bref éloge, puis digression sur la langue, l'éducation et les souvenirs de l'auteur."},
+    {"id_brut": 9280, "cause": "resume_intrigue", "explication": "Raconte le fait divers à l'origine du film et ne donne aucun avis."},
+    {"id_brut": 23481, "cause": "avis_mitige", "explication": "N'a pas aimé le film en le regardant, puis le juge bon après réflexion."},
+    {"id_brut": 25600, "cause": "negation", "explication": "Éloge construit sur des formules négatives ou concessives (attentes basses, film modeste)."},
+    {"id_brut": 28217, "cause": "avis_mitige", "explication": "Bonne histoire et acteur correct, mais montage et longueur critiqués."},
+    {"id_brut": 45800, "cause": "avis_mitige", "explication": "Histoire appréciée, mais jeu excessif et musique faible reprochés."}
+  ]
+}

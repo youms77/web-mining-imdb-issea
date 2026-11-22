@@ -1,0 +1,31 @@
+# Thème de l'application : voir docs/design_system.md
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+
+[theme]
+base = "light"
+primaryColor = "#1F5FBF"
+backgroundColor = "#F6F7FA"
+secondaryBackgroundColor = "#EDF0F5"
+textColor = "#17202E"
+linkColor = "#1F5FBF"
+borderColor = "#DDE2EA"
+showWidgetBorder = true
+showSidebarBorder = true
+baseRadius = "10px"
+font = "sans-serif"
+headingFont = "serif"
+baseFontSize = 18
+headingFontSizes = ["2.5rem", "1.65rem", "1.4rem", "1.2rem", "1.1rem", "1rem"]
+greenColor = "#1B7F4B"
+redColor = "#C8372D"
+orangeColor = "#8F4A00"
+blueColor = "#1F5FBF"
+chartCategoricalColors = ["#1F5FBF", "#1B7F4B", "#E07B00", "#C8372D"]
+
+[theme.sidebar]
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#EDF0F5"

@@ -1,0 +1,38 @@
+{
+  "commentaire": "Noms attribués après relecture des 10 mots et des extraits. nature : sujet (de quoi parle la critique), jugement (vocabulaire d'évaluation), mixte.",
+  "famille_commune": "nmf",
+  "raison_modele_commun": "NMF k=8 a de meilleures cohérences c_v et NPMI, une meilleure diversité et des topics bien plus stables que LDA k=12 quand on réajuste sur 80 % des critiques. Ses 8 topics se lisent clairement. LDA k=12 garde un topic flou (western, jungle, ninja) dont les extraits ne parlent pas du thème. LDA reste calculé comme contrôle.",
+  "titre_figure": "La déception sépare le plus les avis, bien plus que les sujets",
+  "modeles": {
+    "nmf": {
+      "k": 8,
+      "topics": [
+        {"signature": ["man", "life", "woman"], "nom": "Récits de vie et de guerre", "nature": "sujet", "lecture": "Destins de personnages, guerre, documentaires."},
+        {"signature": ["ever", "plot", "waste"], "nom": "Déception, film raté", "nature": "jugement", "lecture": "Vocabulaire de rejet : temps et argent perdus, jeu et intrigue jugés mauvais."},
+        {"signature": ["funny", "comedy", "laugh"], "nom": "Comédie et humour", "nature": "sujet", "lecture": "Parle de comédies, y compris pour dire qu'elles ne font pas rire."},
+        {"signature": ["character", "story", "actor"], "nom": "Personnages et interprétation", "nature": "sujet", "lecture": "Analyse du jeu des acteurs, des rôles et du récit."},
+        {"signature": ["episode", "series", "season"], "nom": "Séries télévisées", "nature": "sujet", "lecture": "Épisodes, saisons, coffrets DVD, fans."},
+        {"signature": ["love", "kid", "saw"], "nom": "Coups de cœur, famille, musique", "nature": "mixte", "lecture": "Mélange d'enthousiasme, de films pour enfants et de chansons."},
+        {"signature": ["horror", "zombie", "gore"], "nom": "Horreur", "nature": "sujet", "lecture": "Genre horrifique : zombies, gore, vampires."},
+        {"signature": ["book", "read", "novel"], "nom": "Adaptations de livres", "nature": "sujet", "lecture": "Comparaison entre le film et le livre d'origine."}
+      ]
+    },
+    "lda": {
+      "k": 12,
+      "topics": [
+        {"signature": ["car", "cop", "police"], "nom": "Policier et poursuites", "nature": "sujet", "lecture": "Police, crime, poursuites ; un extrait porte sur un film catastrophe."},
+        {"signature": ["series", "game", "episode"], "nom": "Séries, animation, SF, jeux", "nature": "sujet", "lecture": "Regroupe plusieurs univers proches : assez large."},
+        {"signature": ["song", "music", "dance"], "nom": "Comédies musicales", "nature": "sujet", "lecture": "Chant, danse, musique."},
+        {"signature": ["story", "character", "life"], "nom": "Récit et émotion", "nature": "sujet", "lecture": "Topic général sur l'histoire et le ressenti."},
+        {"signature": ["war", "american", "soldier"], "nom": "Guerre et histoire", "nature": "sujet", "lecture": "Guerres, documentaires historiques."},
+        {"signature": ["role", "performance", "actor"], "nom": "Interprétation et adaptations", "nature": "sujet", "lecture": "Jeu d'acteurs, versions d'une même œuvre."},
+        {"signature": ["young", "man", "life"], "nom": "Couple et famille", "nature": "sujet", "lecture": "Relations amoureuses et familiales."},
+        {"signature": ["scene", "guy", "kill"], "nom": "Violence à l'écran", "nature": "sujet", "lecture": "Scènes de violence et d'action, films d'exploitation."},
+        {"signature": ["western", "man", "horse"], "nom": "Western et aventure (flou)", "nature": "sujet", "lecture": "Topic flou : mots mêlés et extraits hors du thème."},
+        {"signature": ["horror", "gore", "zombie"], "nom": "Horreur", "nature": "sujet", "lecture": "Genre horrifique."},
+        {"signature": ["love", "funny", "comedy"], "nom": "Comédie et coups de cœur", "nature": "mixte", "lecture": "Humour et enthousiasme mêlés."},
+        {"signature": ["plot", "character", "act"], "nom": "Intrigue et jeu critiqués", "nature": "jugement", "lecture": "Critiques de l'intrigue et du jeu, souvent très négatives."}
+      ]
+    }
+  }
+}

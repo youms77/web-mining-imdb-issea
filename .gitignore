@@ -1,0 +1,9 @@
+# Le corpus n'est pas publié : à télécharger soi-même (voir README.md)
+data/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.streamlit/secrets.toml
+.env

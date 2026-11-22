@@ -1,0 +1,133 @@
+{
+  "date_gel": "2026-11-22T10:07:38+01:00",
+  "statut": "figé avant toute lecture du test",
+  "regles": {
+    "hyperparametres": "Par famille : meilleure exactitude moyenne sur 5 plis. Parmi les réglages à moins de 0,05 point du meilleur, on garde le plus petit vocabulaire, puis le plus régularisé.",
+    "notes_ecrites": "Les notes sont retirées si, pour au moins une famille, les garder apporte un gain d'au moins 0,05 point et supérieur à 2 erreurs-types : ce gain viendrait d'une étiquette recopiée dans le texte. Sinon, le pipeline A reste inchangé.",
+    "calibration": "Pour chaque famille, méthode au Brier moyen le plus bas (sigmoïde ou isotonique). Modèle retenu : Brier le plus bas parmi les versions calibrées. Si l'écart apparié au meilleur est inférieur à 2 erreurs-types, on préfère la meilleure exactitude, puis la sigmoïde.",
+    "zone_incertitude": "Plus petite zone symétrique autour de 0,5 telle que l'exactitude hors zone atteigne 95 %, sur les probabilités hors pli du modèle retenu."
+  },
+  "separation": {
+    "entrainement": 39660,
+    "test": 9915,
+    "empreinte_index_entrainement": "89937952A23AB496553AC36147872F4365FFF64C83DF15B519BFB2472E6D5C4C",
+    "empreinte_index_test": "D3ED1BBB9C6003E7157385081F3AB75F10C73DFFB62916669E9BA0F49C105B56"
+  },
+  "retirer_les_notes": true,
+  "pretraitement_des_modeles": "src.models.preparer_texte : retirer_notes puis pipeline_a",
+  "reglages_par_famille": {
+    "naive_bayes_bow": {
+      "parametre": "alpha",
+      "valeur": 1.0,
+      "min_df": 2,
+      "max_df": 0.3,
+      "methode_calibration": "isotonic"
+    },
+    "naive_bayes_tfidf": {
+      "parametre": "alpha",
+      "valeur": 0.3,
+      "min_df": 2,
+      "max_df": 0.3,
+      "methode_calibration": "isotonic"
+    },
+    "regression_logistique": {
+      "parametre": "C",
+      "valeur": 30.0,
+      "min_df": 5,
+      "max_df": 0.5,
+      "methode_calibration": "sigmoid"
+    },
+    "svm_lineaire": {
+      "parametre": "C",
+      "valeur": 1.0,
+      "min_df": 3,
+      "max_df": 0.5,
+      "methode_calibration": "sigmoid"
+    }
+  },
+  "modele_retenu": {
+    "famille": "svm_lineaire",
+    "methode_calibration": "sigmoid"
+  },
+  "zone_incertitude": {
+    "cible_exactitude_hors_zone": 0.95,
+    "seuil_bas": 0.28,
+    "seuil_haut": 0.72
+  },
+  "zone_mesuree_hors_pli": {
+    "cible_exactitude_hors_zone": 0.95,
+    "seuil_bas": 0.28,
+    "seuil_haut": 0.72,
+    "demi_largeur": 0.22,
+    "part_dans_la_zone": 0.10801815431164896,
+    "exactitude_hors_zone": 0.9503052917232022,
+    "exactitude_dans_la_zone": 0.6099439775910365
+  },
+  "zone_stabilite_par_pli": [
+    {
+      "part_dans_la_zone": 0.10804336863338371,
+      "effectif_dans_la_zone": 857,
+      "exactitude_hors_zone": 0.9515194346289753,
+      "exactitude_dans_la_zone": 0.6184364060676779
+    },
+    {
+      "part_dans_la_zone": 0.10514372163388808,
+      "effectif_dans_la_zone": 834,
+      "exactitude_hors_zone": 0.9488588334742181,
+      "exactitude_dans_la_zone": 0.6019184652278178
+    },
+    {
+      "part_dans_la_zone": 0.1166162380231972,
+      "effectif_dans_la_zone": 925,
+      "exactitude_hors_zone": 0.9513343799058085,
+      "exactitude_dans_la_zone": 0.6086486486486486
+    },
+    {
+      "part_dans_la_zone": 0.10879979828542607,
+      "effectif_dans_la_zone": 863,
+      "exactitude_hors_zone": 0.951195360022634,
+      "exactitude_dans_la_zone": 0.6013904982618772
+    },
+    {
+      "part_dans_la_zone": 0.10148764498234997,
+      "effectif_dans_la_zone": 805,
+      "exactitude_hors_zone": 0.9486459941069174,
+      "exactitude_dans_la_zone": 0.6198757763975156
+    }
+  ],
+  "modeles": {
+    "naive_bayes_bow": {
+      "fichier": "sentiment_naive_bayes_bow.joblib",
+      "taille_mo": 6.5,
+      "sha256": "1C154F5089F19807C489F88902266AD71ACEBDB0DE0A196399E341975F0F7995",
+      "duree_ajustement_s": 298.6,
+      "termes": 608428,
+      "rechargement_identique_sur_2000_critiques_d_entrainement": true
+    },
+    "naive_bayes_tfidf": {
+      "fichier": "sentiment_naive_bayes_tfidf.joblib",
+      "taille_mo": 17.73,
+      "sha256": "EA266EC265A70D327027F8D1FF6C5B8197219FE945A85E4F56ECE7D0A76220DE",
+      "duree_ajustement_s": 305.9,
+      "termes": 608428,
+      "rechargement_identique_sur_2000_critiques_d_entrainement": true
+    },
+    "regression_logistique": {
+      "fichier": "sentiment_regression_logistique.joblib",
+      "taille_mo": 3.48,
+      "sha256": "8FE36F3AE475FBDC0E1B84D077E7AD63D8A8B94B14DFD2921BC9BE0CE4FB3DCF",
+      "duree_ajustement_s": 345.0,
+      "termes": 220488,
+      "rechargement_identique_sur_2000_critiques_d_entrainement": true
+    },
+    "svm_lineaire": {
+      "fichier": "sentiment_svm_lineaire.joblib",
+      "taille_mo": 5.84,
+      "sha256": "31EECB8D2F729E5C7261C513D70963EBD31F5AFA05B2A39A6139D187AF6229DE",
+      "duree_ajustement_s": 272.0,
+      "termes": 373331,
+      "rechargement_identique_sur_2000_critiques_d_entrainement": true
+    }
+  },
+  "sha256_probabilites_hors_pli": "7E245FDC2875636498FC707D926F01BE856E28D8E2EAC94711FF8F06AD705C6D"
+}

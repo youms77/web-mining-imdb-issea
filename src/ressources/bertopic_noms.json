@@ -1,0 +1,27 @@
+{
+  "commentaire": "Noms attribués après lecture des 10 mots et, pour les aspects, de phrases proches du centre du topic. signature : premier mot attendu, pour détecter un changement d'ordre.",
+  "bertopic_k8": [
+    {"signature": "story", "nom": "Fourre-tout : histoire, personnages"},
+    {"signature": "episode", "nom": "Séries et dessins animés"},
+    {"signature": "batman", "nom": "Batman"},
+    {"signature": "match", "nom": "Catch (WWE)"},
+    {"signature": "baseball", "nom": "Baseball"},
+    {"signature": "emma", "nom": "Adaptations de Jane Austen"},
+    {"signature": "tarzan", "nom": "Tarzan"},
+    {"signature": "eagle", "nom": "Groupe mêlé : Grey Owl, Iron Eagle"}
+  ],
+  "aspects": [
+    {"signature": "actor", "nom": "Acteurs et interprétation", "flou": false},
+    {"signature": "horror", "nom": "Avis général sur le film", "flou": true},
+    {"signature": "funny", "nom": "Humour", "flou": false},
+    {"signature": "music", "nom": "Musique", "flou": false},
+    {"signature": "episode", "nom": "Séries et épisodes", "flou": false},
+    {"signature": "monster", "nom": "Monstres et créatures", "flou": false},
+    {"signature": "war", "nom": "Guerre", "flou": false},
+    {"signature": "question", "nom": "Questions et doutes", "flou": true},
+    {"signature": "japanese", "nom": "Japon et Asie", "flou": false},
+    {"signature": "camera", "nom": "Image et effets", "flou": false},
+    {"signature": "rating", "nom": "Notes et classements", "flou": false},
+    {"signature": "jesus", "nom": "Religion", "flou": false}
+  ]
+}

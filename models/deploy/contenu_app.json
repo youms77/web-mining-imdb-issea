@@ -1,0 +1,67 @@
+{
+  "exemples": {
+    "positif": {
+      "texte": "This film is a quiet triumph. The performances are warm and honest, the photography is beautiful, and the script trusts its audience from the first scene to the last. I was moved by the relationship between the two brothers, and the ending is perfect. I loved every minute and I would happily watch it again with the whole family.",
+      "origine": "Texte rédigé pour la démonstration."
+    },
+    "negatif": {
+      "texte": "This movie is a complete waste of time. The plot makes no sense, the dialogue is painfully stupid, and the acting is wooden from start to finish. The jokes fall flat, the editing is a mess, and the ending is even worse than the rest. I was bored after ten minutes and I regret paying for a ticket. Avoid it.",
+      "origine": "Texte rédigé pour la démonstration."
+    },
+    "mitige": {
+      "texte": "To summerize this movie: nice for TV but too small for the theatre. I enjoyed watching this movie at home but I wont watch it a second time. The concept is good, but what ends up in the movie is just a summary. The end had a 'nice' twist but is still unsatisfying. Maybe it was the intention of the director but it wasn't worked out like a it should be. But then again, it's an OK kind of movie.",
+      "origine": "Vraie critique du corpus, partie entraînement.",
+      "id_brut": 13669
+    }
+  },
+  "extraits": [
+    {
+      "topic": 0,
+      "nom": "Récits de vie et de guerre",
+      "id_brut": 27646,
+      "extrait": "… documentaries. this one tells of two warring factions in colombia, guerrillas and paramilitaries, and the surrounding peoples of medellin. guns, drugs and …"
+    },
+    {
+      "topic": 1,
+      "nom": "Déception, film raté",
+      "id_brut": 39679,
+      "extrait": "… would have given this a 0, if possible--bad acting, bad directing, bad production, bad plot. this was made in 2001 and it looks more like 1965. very low …"
+    },
+    {
+      "topic": 2,
+      "nom": "Comédie et humour",
+      "id_brut": 7586,
+      "extrait": "… the harassing cops to their undies and handcuff them in the park in a unflattering position. beyond that, the jokes are not funny, the characters are not …"
+    },
+    {
+      "topic": 3,
+      "nom": "Personnages et interprétation",
+      "id_brut": 4201,
+      "extrait": "… that is totally paranoic and unbelievable. but city hall does not do neither of the above mentioned. the plot is cleverly crafted, story is believable. as far …"
+    },
+    {
+      "topic": 4,
+      "nom": "Séries télévisées",
+      "id_brut": 46199,
+      "extrait": "… i got this as a complete set of 9 episodes on 5 dvds. i knew nothing about the history of the series. season 1 of the series has the pilot episode as episode 1 …"
+    },
+    {
+      "topic": 5,
+      "nom": "Coups de cœur, famille, musique",
+      "id_brut": 21309,
+      "extrait": "… love. gorgeous love. dumb love. love love love. minnie moore understands that what she really needs is a man who trust her, trust her and love her madly. of …"
+    },
+    {
+      "topic": 6,
+      "nom": "Horreur",
+      "id_brut": 12719,
+      "extrait": "… i consider myself a huge horror movie fan. one night i wanted to just rent some newer horror movies to make fun of. then, i rented milo. i was so surprised by …"
+    },
+    {
+      "topic": 7,
+      "nom": "Adaptations de livres",
+      "id_brut": 16137,
+      "extrait": "… i love memoirs of a geisha so i read the book twice; it is one of the best book i have read last year. i was looking forward to the movie and was afraid that …"
+    }
+  ]
+}
