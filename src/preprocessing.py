@@ -32,7 +32,8 @@ DOSSIER_NLTK_DEPLOIEMENT = RACINE / "models" / "deploy" / "nltk_data"
 CHEMIN_RESSOURCES_B = RACINE / "src" / "ressources" / "pipeline_b.json"
 RESSOURCES_NLTK = {
     "wordnet": "corpora/wordnet.zip",
-    "averaged_perceptron_tagger_eng": "taggers/averaged_perceptron_tagger_eng",
+    # Barre finale : NLTK lit alors l'archive .zip embarquée, sans dossier décompressé.
+    "averaged_perceptron_tagger_eng": "taggers/averaged_perceptron_tagger_eng/",
     "stopwords": "corpora/stopwords",
 }
 # Seules ces deux ressources servent à lemmatiser. Les mots vides sont déjà dans pipeline_b.json.

@@ -304,6 +304,16 @@ def test_lemmatisation_sans_data_interim():
     assert "special_effect" in sortie.stdout
 
 
+def test_lemmatisation_avec_les_seules_ressources_embarquees():
+    """Régression du déploiement : aucun dossier NLTK de l'utilisateur, seulement models/deploy/nltk_data."""
+    code = (
+        "from pathlib import Path; import nltk; nltk.data.path.clear(); import src.preprocessing as p; "
+        "p.DOSSIER_NLTK = Path('inexistant'); print(p.pipeline_b('The special effects were stunning'))"
+    )
+    sortie = subprocess.run([sys.executable, "-c", code], cwd=RACINE, capture_output=True, text=True, check=True)
+    assert "special_effect" in sortie.stdout
+
+
 def test_extraits_courts_et_listes(artefacts):
     extraits = artefacts.contenu["extraits"]
     assert len(extraits) <= artefacts.metriques["topics"]["modele_commun"]["k"]
