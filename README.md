@@ -2,7 +2,7 @@
 
 Projet de Web Mining (ISSEA, ISE3-DSM). Quels thèmes reviennent dans les critiques favorables ou défavorables, et peut-on prédire le sentiment d'une nouvelle critique ? Le dépôt contient l'application Streamlit, le code, les chiffres, les figures et la présentation.
 
-- **Application en ligne :** [URL à compléter après le déploiement]
+- **Application en ligne :** [https://web-mining-imdb-issea.streamlit.app](https://web-mining-imdb-issea.streamlit.app)
 - **Auteurs :** [noms à compléter]
 
 ## Résultats principaux (source : `reports/metrics.json`)
