@@ -16,6 +16,9 @@ Exemple d'utilisation :
 """
 from __future__ import annotations
 
+import os
+import shutil
+import tempfile
 import html
 import json
 import re
@@ -201,6 +204,24 @@ def installer_ressources_nltk() -> None:
             raise RuntimeError(f"Téléchargement NLTK impossible : {ressource}")
 
 
+def _dossier_nltk_sur(dossier: Path) -> Path:
+    """Renvoie un dossier que NLTK accepte de lire.
+
+    NLTK 3.10 refuse un dossier modifiable par un autre compte (cas du serveur Streamlit Community
+    Cloud). Sous Linux, un dossier non privé est alors copié dans un dossier temporaire privé.
+    """
+    if os.name == "nt":
+        return dossier
+    info = dossier.stat()
+    if info.st_uid == os.getuid() and not info.st_mode & 0o022:
+        return dossier
+    prive = Path(tempfile.mkdtemp(prefix="nltk_data_")) / "nltk_data"
+    shutil.copytree(dossier, prive)
+    for chemin in [prive, *prive.rglob("*")]:
+        chemin.chmod(0o700 if chemin.is_dir() else 0o600)
+    return prive
+
+
 def _nltk_pret() -> dict:
     """Charge une seule fois le lemmatiseur, le raciniseur et l'étiqueteur grammatical."""
     if _etat_nltk:
@@ -210,8 +231,10 @@ def _nltk_pret() -> dict:
     from nltk.tag import PerceptronTagger
 
     for dossier in (DOSSIER_NLTK_DEPLOIEMENT, DOSSIER_NLTK):
-        if dossier.exists() and str(dossier) not in nltk.data.path:
-            nltk.data.path.insert(0, str(dossier))
+        if dossier.exists():
+            dossier = _dossier_nltk_sur(dossier)
+            if str(dossier) not in nltk.data.path:
+                nltk.data.path.insert(0, str(dossier))
     try:
         for ressource in RESSOURCES_LEMMATISATION:
             nltk.data.find(RESSOURCES_NLTK[ressource])
