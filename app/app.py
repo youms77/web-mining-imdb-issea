@@ -17,6 +17,8 @@ import streamlit as st  # noqa: E402
 
 from interface import appliquer_style, charger  # noqa: E402
 
+LIEN_VIDEO_DEMO = "https://drive.google.com/file/d/14S__DxeDey1j1oeA-jtwNp9-PzIogFDn/view?usp=sharing"
+
 st.set_page_config(page_title="Critiques IMDB", page_icon=":material/movie:", layout="wide")
 appliquer_style()
 st.logo(str(DOSSIER_APP / "assets" / "logo_ISSEA.png"), size="large")
@@ -36,4 +38,6 @@ page = st.navigation(pages)
 with st.sidebar:
     st.markdown("**Critiques IMDB**")
     st.markdown("Web Mining, ISSEA, ISE3 Data Science et Marketing")
+    # Bouton de la vidéo de démonstration, placé en bas de la barre latérale (style dans interface.py).
+    st.link_button("Vidéo de démonstration", LIEN_VIDEO_DEMO, icon=":material/play_circle:", use_container_width=True)
 page.run()

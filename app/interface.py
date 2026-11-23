@@ -42,6 +42,11 @@ button p, textarea, input, [data-baseweb="select"] div { font-size: 1rem !import
 [data-testid="stSidebarNav"] a { border-radius: 10px; margin-bottom: 4px; }
 [data-testid="stSidebarNav"] a[aria-current="page"] { background: #1E40AF; font-weight: 700; }
 [data-testid="stSidebarNav"] a:hover { background: rgba(255,255,255,.18); }
+[data-testid="stSidebarContent"] { display: flex; flex-direction: column; }
+[data-testid="stSidebarUserContent"] { margin-top: auto; }
+[data-testid="stSidebar"] [data-testid^="stBaseLinkButton"] { background: #1E40AF; border: 1px solid #FFFFFF; border-radius: 10px; font-weight: 700; }
+[data-testid="stSidebar"] [data-testid^="stBaseLinkButton"]:hover { background: #FFFFFF; }
+[data-testid="stSidebar"] [data-testid^="stBaseLinkButton"]:hover * { color: #1E40AF !important; }
 .bandeau { background: #1E40AF; color: #FFFFFF; border-radius: 14px; padding: 1.25rem 1.8rem; margin: 0 0 1.3rem;
   box-shadow: 0 4px 14px rgba(30,64,175,.28); }
 .bandeau h1 { color: #FFFFFF !important; font-size: 2rem; line-height: 1.25; margin: 0; padding: 0; letter-spacing: -0.01em; }

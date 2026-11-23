@@ -120,7 +120,7 @@ with st.expander("Fiabilité par longueur de critique (scores hors pli, entraîn
 
 with st.expander("Données, licences et précautions", icon=":material/gavel:"):
     st.markdown(
-        "- **Corpus :** *Large Movie Review Dataset* (Maas et al., 2011), version Kaggle. Sa licence de réutilisation reste **[à vérifier]**.\n"
+        "- **Corpus :** *Large Movie Review Dataset* (Maas et al., 2011), version Kaggle. Sa licence de réutilisation n'est pas précisée par Kaggle.\n"
         "- **Ce qui est embarqué :** modèles légers, agrégats et quelques courts extraits. Le corpus complet n'est pas distribué.\n"
         "- **Ressources linguistiques :** WordNet 3.0 (licence Princeton) et étiqueteur NLTK (licence MIT).\n"
         "- **Photographie de l'accueil :** licence libre, voir `app/assets/fonds_candidats/SOURCES.md`.\n"
