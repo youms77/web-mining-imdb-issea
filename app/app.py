@@ -17,7 +17,7 @@ import streamlit as st  # noqa: E402
 
 from interface import appliquer_style, charger  # noqa: E402
 
-LIEN_PRESENTATION = "https://docs.google.com/presentation/d/1ArombFIFvGcaJ6Ud-pEvP_PHSdFu_Lz1/edit?usp=sharing"
+LIEN_PRESENTATION = "https://docs.google.com/presentation/d/17IU9pVPGFRYwwRnyhiF4fwjjMJlYylZd/edit?usp=sharing"
 LIEN_VIDEO_DEMO = "https://drive.google.com/file/d/14S__DxeDey1j1oeA-jtwNp9-PzIogFDn/view?usp=sharing"
 
 st.set_page_config(page_title="Critiques IMDB", page_icon=":material/movie:", layout="wide")
