@@ -12,6 +12,7 @@ Exemple d'utilisation :
 """
 from __future__ import annotations
 
+import traceback
 import json
 import re
 from collections import defaultdict
@@ -82,6 +83,7 @@ def charger_artefacts(
         ressources_b = charger_ressources_b()
         pipeline_b("loading the language resources")  # évite cette attente au premier clic
     except (OSError, ValueError, KeyError, RuntimeError, EOFError, ModuleNotFoundError) as erreur:
+        traceback.print_exc()  # cause réelle dans les journaux du serveur, le message utilisateur reste générique
         raise ErreurChargement(f"Un modèle n'a pas pu être chargé depuis {dossier.name}.") from erreur
 
     base = modele.calibrated_classifiers_[0].estimator
